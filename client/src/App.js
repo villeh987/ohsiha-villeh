@@ -5,14 +5,6 @@ import Login from './components/login'
 
 class App extends Component {
 
-    /*constructor(props) {
-        super(props);
-
-        this.state = {
-            data: []
-        }
-    } */
-
     state = {
         data: []
     };
@@ -39,7 +31,7 @@ class App extends Component {
           </li>
           ))}
         </ul>
-
+        <Login/>
       </div>
     );
   }

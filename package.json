@@ -21,7 +21,12 @@
   },
   "homepage": "https://github.com/villeh987/ohsiha-villeh#readme",
   "dependencies": {
+    "config": "^3.2.6",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "helmet": "^3.21.2",
+    "path": "^0.12.7",
     "pg": "^7.18.2",
     "react-scripts": "^3.4.0"
   },
