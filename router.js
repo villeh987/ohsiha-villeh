@@ -4,5 +4,5 @@ const UserRouter = require('./routes/user');
 
 // Setup routes
 module.exports = function(app) {
-    app.use('/login', UserRouter);
+    app.use('/user', UserRouter);
 };

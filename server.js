@@ -6,11 +6,16 @@ const path = require('path');
 const helmet = require('helmet');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const sql = require('./sql.js');
 
-const { pool } = require('./db');
 const config = require('config');
 const sessionConfig = config.get('session');
 const adminConfig = config.get('admin');
+
+const { pool } = require('./db');
+require('./setup')(adminConfig);
+
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -24,18 +29,10 @@ app.use(session(sessionConfig));
 
 require('./router.js')(app);
 
-const getUsers = (req, res) => {
-    pool.query('SELECT * FROM users', (err, results) => {
-        if (err) {
-            throw err;
-        }
-        console.log(results.rows);
-        res.json(results.rows);
-    });
-}
+
 
 // error handler
-app.use(function(error, request, response, next) {
+/*app.use(function(error, request, response, next) {
     // set locals, only providing error in development
     response.locals.message = error.message;
     response.locals.error =
@@ -45,16 +42,16 @@ app.use(function(error, request, response, next) {
 
     // send response
     response.status(error.status || 500);
-    if (request.baseUrl !== '/api') return response.render('error');
+    if (request.baseUrl !== '/api') return response.json('error');
 
     response.json({
         message: response.locals.message,
         error: response.locals.error
     });
-});
+}); */
 
 // create a GET route
-app.get('/test', getUsers);
+app.get('/test', sql.getUsers);
 
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));

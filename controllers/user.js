@@ -1,12 +1,16 @@
 
 //const User = require('../models/user');
+const { pool } = require('../db');
+const sql = require('../sql.js');
 
 function validateUser(user) {
     const validEmail = typeof user.email == 'string' && user.email.trim() != '';
-    const validUserName = '';
-    const validPassword =   user.password == 'string' &&
+    const validUserName = user.name.length < 30;
+    const validPassword =   typeof user.password == 'string' &&
                             user.password.trim() != '' &&
                             user.password.trim().length >= 0;
+
+    //console.log("name:", validUserName, "email:", validEmail, "password", validPassword);
 
     return validEmail && validUserName && validPassword;
 }
@@ -19,6 +23,29 @@ module.exports = {
      * @param {Object} response is express response object
      */
     async createUser(request, response) {
+        if (!validateUser(request.body)) {
+            // error
+            console.log("vituiks män");
+            response.end("Not valid user!");
+            return false;
+        } 
+
+        sql.getUserByEmail(request.body.email, function(result) {
+
+            if (result.length > 0) {
+                console.log("Already exists!");
+                response.end('Already exists with that email!');
+                return false;
+            }
+        });
+
+        sql.createUser(request.body, function(result) {
+            if (result) {
+                console.log("Succesfully created new user!");
+            }
+        });
+
+        response.end('User creation succesfull!');
 
 
     },
@@ -52,18 +79,6 @@ module.exports = {
      * @param {Object} response is express response object
      */
     register(request, response) {
-        response.render(`<!doctype html>
-                <html lang="en">
-                    <head>
-                        <meta charset="utf-8">
-                        <title>Login</title>
-                    </head>
-                    <body>
-                        <form action="/login" method="POST">
-                            <input type="text" id="username" name="username" placeholder="Your username">
-                            <input type="password" id="password" name="password" placeholder="Your password">
-                            <button type="submit">Submit</button>
-                        </form>
-                </html>`);
+
     }
 };

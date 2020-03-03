@@ -11,14 +11,14 @@ const UserController = require('../controllers/user');
 // Register user
 router
     .route('/register')
-    .all( (request, response, next) => {
+    .post(UserController.createUser);
+    /*.all( (request, response, next) => {
         if (!userLoggedIn(request)) {
             return next();
         }
         response.redirect('/');
-    })
-    .get(UserController.register)
-    .post(UserController.createUser);
+    }) */
+
 
 
 /*// Login user
