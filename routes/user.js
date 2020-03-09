@@ -21,9 +21,11 @@ router
 
 
 
-/*// Login user
+// Login user
 router
     .route('/login')
+    .post(UserController.login)
+    /*
     .all(auth.forwardAuthenticated)
     .get(UserController.login)
     .post((req, res, next) => {

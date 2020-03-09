@@ -6,6 +6,8 @@ const path = require('path');
 const helmet = require('helmet');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+//const cookieParser = require('cookie-parser')
+const cors = require('cors')
 const sql = require('./sql.js');
 
 const config = require('config');
@@ -16,16 +18,19 @@ const { pool } = require('./db');
 require('./setup')(adminConfig);
 
 
+app.use(cors({origin: 'http://localhost:3000', credentials: true}));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
     })
 );
+//app.use(cookieParser('keyboard_cat'));
 
 app.use(helmet());
 
 app.use(session(sessionConfig));
+
 
 require('./router.js')(app);
 
@@ -41,7 +46,7 @@ require('./router.js')(app);
     response.locals.heading = `${request.method} ${request.url}`;
 
     // send response
-    response.status(error.status || 500);
+    response.status(error.status || response.statusCode || 500);
     if (request.baseUrl !== '/api') return response.json('error');
 
     response.json({
@@ -51,7 +56,7 @@ require('./router.js')(app);
 }); */
 
 // create a GET route
-app.get('/test', sql.getUsers);
+//app.get('/test', sql.getUsers);
 
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));

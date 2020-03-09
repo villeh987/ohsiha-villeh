@@ -1,4 +1,5 @@
 const { pool } = require('./db');
+const bcrypt = require('bcrypt');
 
 module.exports = {
 
@@ -18,7 +19,11 @@ module.exports = {
     },
 
     createUser(user, callback) {
-        pool.query(`INSERT INTO users (name, email, role, password) VALUES ('${user.name}', '${user.email}', '${user.role}', '${user.password}')`, (err, results) => {
+        const hash = bcrypt.hashSync(user.password, 10);
+
+        const role = user.role ? user.role : 'viewer';
+
+        pool.query(`INSERT INTO users (name, email, role, password) VALUES ('${user.name}', '${user.email}', '${role}', '${hash}')`, (err, results) => {
             //console.log(results);
             if (err) {
                 throw err;

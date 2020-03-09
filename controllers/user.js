@@ -2,6 +2,7 @@
 //const User = require('../models/user');
 const { pool } = require('../db');
 const sql = require('../sql.js');
+const bcrypt = require('bcrypt');
 
 function validateUser(user) {
     const validEmail = typeof user.email == 'string' && user.email.trim() != '';
@@ -26,28 +27,27 @@ module.exports = {
         if (!validateUser(request.body)) {
             // error
             console.log("vituiks män");
+            response.status(500);
             response.end("Not valid user!");
             return false;
         } 
 
         sql.getUserByEmail(request.body.email, function(result) {
 
-            if (result.length > 0) {
-                console.log("Already exists!");
+            if (result.rowCount > 0) {
+                //console.log("Already exists!");
+                response.status(500);
                 response.end('Already exists with that email!');
                 return false;
+            } else {
+                sql.createUser(request.body, function(result) {
+                    if (result) {
+                        console.log("Succesfully created new user!");
+                    }
+                    response.end('User creation succesfull!');
+                });
             }
         });
-
-        sql.createUser(request.body, function(result) {
-            if (result) {
-                console.log("Succesfully created new user!");
-            }
-        });
-
-        response.end('User creation succesfull!');
-
-
     },
 
 
@@ -58,7 +58,31 @@ module.exports = {
      * @param {Object} response is express response object
      */
     login(request, response) {
-        response.render('user/login');
+        //console.log(request.body);
+        sql.getUserByEmail(request.body.email, function(result) {
+            if (result.rowCount === 0) {
+                response.json( {message: 'Invalid email or password'});
+            } else {
+                //console.log(result);
+                const user = result.rows[0];
+                bcrypt.compare(request.body.password, user.password)
+                .then((res)=> {
+                    if (res) {
+                        response.cookie('user_id', user.id, {
+                            httpOnly: true,
+                            secure: request.app.get('env') != 'development',
+                            //signed: true
+                        });
+                        response.json({message: 'User found!'});  
+                    } else {
+                        response.json({message: 'Invalid email or password'}); 
+                    }
+
+                });
+
+            }
+        });
+
     },
 
     /**
