@@ -61,6 +61,7 @@ module.exports = {
         //console.log(request.body);
         sql.getUserByEmail(request.body.email, function(result) {
             if (result.rowCount === 0) {
+                response.status(500);
                 response.json( {message: 'Invalid email or password'});
             } else {
                 //console.log(result);
@@ -68,13 +69,15 @@ module.exports = {
                 bcrypt.compare(request.body.password, user.password)
                 .then((res)=> {
                     if (res) {
-                        response.cookie('user_id', user.id, {
+                        /*response.cookie('user_id', user.id, {
                             httpOnly: true,
                             secure: request.app.get('env') != 'development',
                             //signed: true
-                        });
+                        }); */
+                        request.session.user = {id: user.id, name: user.name, email: user.email};
                         response.json({message: 'User found!'});  
                     } else {
+                        response.status(500);
                         response.json({message: 'Invalid email or password'}); 
                     }
 
@@ -85,6 +88,14 @@ module.exports = {
 
     },
 
+
+
+    loggedIn(request, response) {
+        request.session.user ? response.json({loggedIn: true, user: request.session.user}) : response.json({loggedIn: false, user: {}});
+        console.log(request.sessionID);
+    },
+
+
     /**
      * User logs out and gets redirected to a login page.
      *
@@ -92,9 +103,20 @@ module.exports = {
      * @param {Object} response is express response object
      */
     logout(request, response) {
-        request.logout();
-        request.flash('successMessage', 'You have logged out');
-        response.redirect('/users/login');
+        console.log(request.headers.cookie);
+        if (request.session.user && request.headers.cookie) {
+
+            response.clearCookie('ohsiha');
+            response.json({status: 'Logged out'});
+        } else {
+            response.json({status: 'Already logged out'});
+        }
+        /*
+        request.session.destroy(()=> {
+            response.clearCookie('user_id');
+            response.json({status: 'Logged out'});
+        });*/
+
     },
 
     /**

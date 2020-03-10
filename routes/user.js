@@ -24,7 +24,7 @@ router
 // Login user
 router
     .route('/login')
-    .post(UserController.login)
+    .post(UserController.login);
     /*
     .all(auth.forwardAuthenticated)
     .get(UserController.login)
@@ -35,10 +35,13 @@ router
             failureFlash: true,
             successFlash: true
         })(req, res, next);
-    });
+    }); */
 
+router
+    .route('/auth')
+    .get(UserController.loggedIn);
 
 // Logout
-router.get('/logout', UserController.logout); */
+router.get('/logout', UserController.logout); 
 
 module.exports = router;

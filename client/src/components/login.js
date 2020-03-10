@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './login.css';
+import auth from '../auth';
 
 const axios = require('axios').default;
 
@@ -35,6 +36,9 @@ class Login extends Component {
         .then(response => {
             if (response.status === 200) {
                 console.log(response.data.message);
+                auth.login( () => {
+                    this.props.history.push('/');
+                })
             }
         })
         .catch(error => {
