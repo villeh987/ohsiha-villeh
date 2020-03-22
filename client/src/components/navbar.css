@@ -1,23 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Baloo+2:500&display=swap');
+
 nav {
 
-    justify-content: space-around;
+    justify-content: flex-end;
+    height: 25px;
     display: flex;
     align-items: center;
-    min-height: 18vh;
-    background: black;
-    color: white;
+    padding: 30px 10%;
+    background: #282b2c;
+    border-bottom-style: groove;
+    color: #edf0f1;
 }
 
 ul.nav-links {
-    width: 50%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    color: white;
     list-style: none;
+}
+.nav-links li {
+    display: inline-block;
+    padding: 0px 20px;
 }
 
 a {
+    font-family: "Baloo 2", cursive;
+    font-size: 17px;
     color:white;
     text-decoration: none;
+    transition: all 0.3s ease 0s;
+}
+
+a:hover {
+    color: #107aa1;
 }

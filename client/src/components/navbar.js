@@ -22,11 +22,17 @@ class Navbar extends Component {
 
         if (this.state.auth === true || sessionStorage.getItem('auth')) {
             nav = <ul className="nav-links">
-                    <Link to="/logout">
-                    <li>Logout</li>
+                    <Link to="/home">
+                    <li>Home</li>
                     </Link>
                     <Link to="/data">
                     <li>Data</li>
+                    </Link>
+                    <Link to="/logout">
+                    <li>Logout</li>
+                    </Link>
+                    <Link to="/about">
+                    <li>About</li>
                     </Link>
                  </ul>            
         } else {
@@ -36,6 +42,9 @@ class Navbar extends Component {
                     </Link>
                     <Link to="/register">
                     <li>Register</li>
+                    </Link>
+                    <Link to="/about">
+                    <li>About</li>
                     </Link>
                  </ul> 
         }
