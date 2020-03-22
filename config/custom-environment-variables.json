@@ -5,6 +5,7 @@
     "admin": {
         "name": "ADMIN_NAME",
         "email": "ADMIN_EMAIL",
+        "role": "ADMIN_ROLE",
         "password": "ADMIN_PASS"
     }
 }

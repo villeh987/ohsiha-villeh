@@ -58,31 +58,25 @@ module.exports = {
      * @param {Object} response is express response object
      */
     login(request, response) {
-        //console.log(request.body);
+
         sql.getUserByEmail(request.body.email, function(result) {
             if (result.rowCount === 0) {
                 response.status(500);
                 response.json( {message: 'Invalid email or password'});
+
             } else {
-                //console.log(result);
                 const user = result.rows[0];
                 bcrypt.compare(request.body.password, user.password)
                 .then((res)=> {
                     if (res) {
-                        /*response.cookie('user_id', user.id, {
-                            httpOnly: true,
-                            secure: request.app.get('env') != 'development',
-                            //signed: true
-                        }); */
                         request.session.user = {id: user.id, name: user.name, email: user.email};
                         response.json({message: 'User found!'});  
+                        
                     } else {
                         response.status(500);
                         response.json({message: 'Invalid email or password'}); 
                     }
-
                 });
-
             }
         });
 

@@ -1,0 +1,25 @@
+ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap
+
+}
+
+li {
+    list-style: none;
+    flex: 0 0 20%;
+}
+
+img {
+    max-width: 205px;
+    height: 300px;
+    padding: 5px;
+}
+
+.caption {
+    display: block;
+    font-size: 17px;
+    font-weight: bold;
+
+}
+

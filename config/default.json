@@ -1,15 +1,14 @@
 {
     "session": {
         "name": "ohsiha",
+        "secret": "keyboard cat",
         "resave": false,
-        "rolling": true,
         "saveUninitialized": false,
         "unset": "destroy",
         "cookie": {
             "httpOnly": true,
             "maxAge": 3600000,
             "path": "/",
-            "sameSite": "lax",
             "secure": false
         }
     }

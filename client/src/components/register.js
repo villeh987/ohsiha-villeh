@@ -50,7 +50,8 @@ class Register extends Component {
 
     render() {
         return (
-            <div>
+            <div className="container">
+            <h1>Register</h1>
             <form onSubmit={this.handleClick}>
  
                 <input type="text" id="username" name="name" placeholder="Your username" value={this.state.name} onChange={this.handleChange} required/>
