@@ -38,7 +38,7 @@ class Register extends Component {
         axios.post('http://localhost:5000/user/register', payload, {withCredentials: true})
         .then(response => {
             if (response.status === 200) {
-
+                this.props.history.push('/home');
             }
             //console.log(response);
         })

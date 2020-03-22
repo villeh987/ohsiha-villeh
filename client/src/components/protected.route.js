@@ -1,15 +1,16 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Route, Redirect} from 'react-router-dom';
 import './data.css';
-import auth from '../auth';
+//import auth from '../auth';
 
 
-export const ProtectedRoute = ({component: Component, ...rest}) => {
+export const ProtectedRoute = ({component: Component, auth, ...rest}) => {
+    const isAuth = sessionStorage.getItem('auth');
 
     return(
         <Route {...rest} render={props => {
-            if (auth.isAuthenticated()) {
-               return <Component {...props}/>             
+            if (isAuth) {
+               return <Component {...rest} {...props}/>             
            } else {
             return <Redirect to={
             {

@@ -1,13 +1,18 @@
 import React, {Component} from 'react';
 import './navbar.css';
 import {Link} from 'react-router-dom';
-import auth from '../auth';
+//import auth from '../auth';
 
 
 class Navbar extends Component {
 
-    constructor(props) {
-        super(props);
+    constructor({auth}) {
+        super();
+        this.state = auth;
+    }
+
+    componentWillReceiveProps({auth}) {
+        this.setState({...this.state, auth});
     }
 
 
@@ -15,7 +20,7 @@ class Navbar extends Component {
 
         let nav;
 
-        if (this.props.auth) {
+        if (this.state.auth === true || sessionStorage.getItem('auth')) {
             nav = <ul className="nav-links">
                     <Link to="/logout">
                     <li>Logout</li>

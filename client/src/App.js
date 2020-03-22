@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import auth from './auth';
 import Login from './components/login';
 import Logout from './components/logout';
 import Register from './components/register';
@@ -12,44 +11,44 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Redirect
 } from "react-router-dom";
 
 const axios = require('axios').default;
 
 class App extends Component {
 
-    state = {
-        loggedInStatus: false,
-        user: {}
-    };
+    constructor() {
+        super();
+
+        this.state = {
+            loggedInStatus: false,
+            user: {}
+        };
+
+        this.checkLoginStatus = this.checkLoginStatus.bind(this);
+        this.handleLogin = this.handleLogin.bind(this); 
+        //this.checkLoginStatus(); 
+    }
+
 
     checkLoginStatus() {
         axios.get("http://localhost:5000/user/auth", {withCredentials: true})
         .then(response=> {
-            //console.log(response)
             if (response.data.loggedIn && this.state.loggedInStatus === false) {
-                console.log("nyt tehää");
-                this.setState({
-                    loggedInStatus: true,
-                    user: response.data.user
-                });
-                auth.login( () => {
+                console.log("Yks");
+                this.handleLogin(response.data.user, true);
 
-                });
-
-            } else if (!response.data.loggedIn && this.state.loggedInStatus === true) {                
-                this.setState({
-                    loggedInStatus: false,
-                    user: {}
-                });
-                auth.logout( () => {
-
-                });
+            } else if (!response.data.loggedIn && this.state.loggedInStatus === true) {
+                console.log("Kaks")                
+                this.handleLogin({}, false);
+                sessionStorage.clear();
+            } else if (!response.data.loggedIn) {
+                this.handleLogin({}, false);
+                sessionStorage.clear();
             }
 
             console.log("Loggedinstatus:", this.state.loggedInStatus);
-            console.log("isAuthenticated:", auth.isAuthenticated());
             
         })
         .catch(error => {
@@ -58,33 +57,38 @@ class App extends Component {
     }
 
     componentDidMount() {
-    // Call fetch function below once the component mounts
         this.checkLoginStatus()
-        //console.log("Loggedinstatus:", this.state.loggedInStatus);
-        //console.log("isAuthenticated:", auth.isAuthenticated());
-    } 
+    }
 
-    handleLogin(data) {
+    handleLogin(user, loggedIn) {
         this.setState({
-            loggedInStatus: true,
-            user: data.user
+            loggedInStatus: loggedIn,
+            user: user
         });
     }
 
 
 
   render() {
+    //this.checkLoginStatus();
+
+    let RedirectRoute = <Route path="/" exact render={() => <Redirect to={{pathname: "/login"}}/>} />;
+    if (sessionStorage.getItem('auth')) {
+        RedirectRoute = <Route path="/" exact render={() => <Redirect to={{pathname: "/home"}}/>} />;
+    }
+
     return (
     <Router>
       <div className="App">
 
         <Navbar auth={this.state.loggedInStatus}></Navbar>
         <Switch>
-            <Route path="/" exact component={Homepage}/>
-            <ProtectedRoute path="/data"  component={Data}/>
+            {RedirectRoute}
+            <ProtectedRoute path="/home" exact component={Homepage}/>
+            <ProtectedRoute path="/data" auth={this.state.loggedInStatus} component={Data}/>
             <Route path="/register" component={Register}/>
-            <Route path="/login" component={Login}/>
-            <Route path="/logout" component={Logout}/>
+            <Route path="/login" render={(props) => <Login {...props} checkLoginStatus={this.checkLoginStatus} />} />
+            <Route path="/logout" render={(props) => <Logout {...props} handleLogin={this.handleLogin} />} />
             <Route path="*" component={() => "Oops, looks like this page doesn't exist"} />
         </Switch>
       </div>

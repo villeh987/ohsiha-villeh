@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './logout.css';
-import auth from '../auth';
+//import auth from '../auth';
 
 const axios = require('axios').default;
 
@@ -16,9 +16,9 @@ class Logout extends Component {
                     axios.get("http://localhost:5000/user/logout", {withCredentials: true})
                     .then(response => {
                         if (response.data.status) {
-                            auth.logout( ()=> {
-                                this.props.history.push('/');
-                            }); 
+                            sessionStorage.clear();
+                            this.props.history.push('/login');
+                            this.props.handleLogin({}, false);
                         }
                     })
                     .catch(error => {

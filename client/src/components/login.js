@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import './login.css';
-import auth from '../auth';
+import {
+  Redirect
+} from "react-router-dom";
 
 const axios = require('axios').default;
 
@@ -36,30 +38,39 @@ class Login extends Component {
         .then(response => {
             if (response.status === 200) {
                 console.log(response.data.message);
-                auth.login( () => {
-                    this.props.history.push('/');
-                })
+
+                sessionStorage.setItem('auth', 'true');
+                this.props.checkLoginStatus();
+                this.props.history.push('/home');
+
+
             }
         })
         .catch(error => {
             console.log('Error:', error.body);
-        })
+        }) 
     }
 
     render() {
-        return (
-            <div className="container">
-            <h1>Login</h1>
-                <form onSubmit={this.handleClick}>
-                    <div className="login">
-                        <input type="text" id="email" name="email" placeholder="Email" value={this.state.email} onChange={this.handleChange}/>
-                        <input type="password" id="password" name="password" placeholder="Your password" value={this.state.password} onChange={this.handleChange}/>
-                        <button type="submit">Submit</button>
-                    </div>
-                </form>
-            </div>
-            
-        );  
+        if (sessionStorage.getItem('auth')) {
+            return (
+                <Redirect to={{pathname: "/home"}} />
+            ) 
+        } else {
+            return (
+                <div className="container">
+                <h1>Login</h1>
+                    <form onSubmit={this.handleClick}>
+                        <div className="login">
+                            <input type="text" id="email" name="email" placeholder="Email" value={this.state.email} onChange={this.handleChange}/>
+                            <input type="password" id="password" name="password" placeholder="Your password" value={this.state.password} onChange={this.handleChange}/>
+                            <button type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                
+            );
+        }  
     }
 }
 
