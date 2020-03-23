@@ -1,4 +1,4 @@
-.container{
+/*.container{
   width: 100vw;
   position: relative;
 
@@ -7,7 +7,8 @@
   align-items: center;
 }
 
-input[type=text], input[type=password] {
+
+input[type=text].normal, input[type=password].normal {
     width: 500px;
     padding: 12px 20px;
     margin: 8px 0;
@@ -15,6 +16,7 @@ input[type=text], input[type=password] {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    transition: 0.2s;
 }
 
 
@@ -29,6 +31,70 @@ button[type=submit] {
   cursor: pointer;
 }
 
+
 button[type=submit]:hover {
   background-color: #107aa1;
 }
+*/
+
+
+
+
+.container{
+    width: 100vw;
+    position: relative;
+    display: flex;
+    flex-flow: column wrap; 
+    text-align: center;
+}
+
+input[type=text].normal, input[type=password].normal {
+    width: 300px;
+    padding: 12px 20px;
+    margin: 8px auto;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center; 
+    /*box-sizing: border-box;*/
+    transition: 0.2s;
+
+}
+
+input[type=text]:focus, input[type=password]:focus {
+    width: 357px;
+}
+
+
+button[type=submit] {
+  width: 343px;
+  background-color: #42c5f5;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px auto;
+  border: none;
+  border-radius: 4px;
+  text-align:   center; 
+  cursor: pointer;
+}
+
+button[type=submit]:hover {
+  background-color: #107aa1;
+} 
+
+.error {
+    color: red;
+} 
+.errorInput {
+    width: 300px;
+    padding: 12px 20px;
+    margin: 8px auto;
+    display: block;
+    border: 1px solid red;
+    border-radius: 4px;
+    text-align: center; 
+    /*box-sizing: border-box;*/
+    transition: 0.2s;
+}
+
+

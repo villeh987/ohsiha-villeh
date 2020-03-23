@@ -12,7 +12,9 @@ class Register extends Component {
         this.state = {
             name: '',
             email: '',
-            password: ''
+            password: '',
+            error: '',
+            inputClass: 'normal'
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -40,26 +42,25 @@ class Register extends Component {
             if (response.status === 200) {
                 this.props.history.push('/home');
             }
-            //console.log(response);
         })
         .catch(error => {
-            console.log('Error:', error.body);
+            this.setState({error: error.response.data.message, inputClass: 'errorInput'});
         })
     }
 
 
     render() {
         return (
-            <div className="container">
-            <h1>Register</h1>
-            <form onSubmit={this.handleClick}>
- 
-                <input type="text" id="username" name="name" placeholder="Your username" value={this.state.name} onChange={this.handleChange} required/>
-                <input type="text" id="email" name="email" placeholder="Email" value={this.state.email} onChange={this.handleChange} required/>
-                <input type="password" id="password" name="password" placeholder="Your password" value={this.state.password} onChange={this.handleChange} required/>
-                <button type="submit">Submit</button>
-            </form>
-            </div>
+                <div>
+                    <h1>Register</h1>
+                    <form className="container" onSubmit={this.handleClick}>
+                        <input className={this.state.inputClass} type="text" id="username" name="name" placeholder="Your username" value={this.state.name} onChange={this.handleChange} required/>
+                        <input className={this.state.inputClass} type="text" id="email" name="email" placeholder="Email" value={this.state.email} onChange={this.handleChange} required/>
+                        <input className={this.state.inputClass} type="password" id="password" name="password" placeholder="Your password" value={this.state.password} onChange={this.handleChange} required/>
+                        <button type="submit">Submit</button>
+                    </form>
+                    {this.state.error && <h3 className="error">{this.state.error}</h3>}
+                </div>
             
         );  
     }

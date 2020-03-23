@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './navbar.css';
+import Logo from '../logo.svg'
 import {Link} from 'react-router-dom';
 //import auth from '../auth';
 
@@ -50,7 +51,9 @@ class Navbar extends Component {
         }
 
         return (
+            
             <nav>
+                <img className="logo" src={Logo} alt="logo"/>
                 {nav}
             </nav>
         );  

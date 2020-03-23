@@ -6,7 +6,7 @@ nav {
     height: 25px;
     display: flex;
     align-items: center;
-    padding: 30px 10%;
+    padding: 30px 30px 2% 2%;
     background: #282b2c;
     border-bottom-style: groove;
     color: #edf0f1;
@@ -30,4 +30,10 @@ a {
 
 a:hover {
     color: #107aa1;
+}
+
+.logo {
+    /*cursor: pointer; */
+    width: 100px;
+    margin-right: auto;
 }

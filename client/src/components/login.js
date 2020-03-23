@@ -12,7 +12,9 @@ class Login extends Component {
         super(props);
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            error: '',
+            inputClass: 'normal'
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -42,12 +44,11 @@ class Login extends Component {
                 sessionStorage.setItem('auth', 'true');
                 this.props.checkLoginStatus();
                 this.props.history.push('/home');
-
-
-            }
+            } 
         })
         .catch(error => {
-            console.log('Error:', error.body);
+            console.log('Error:', error.response.data.message);
+            this.setState({error: error.response.data.message, inputClass: 'errorInput'});
         }) 
     }
 
@@ -58,15 +59,14 @@ class Login extends Component {
             ) 
         } else {
             return (
-                <div className="container">
-                <h1>Login</h1>
-                    <form onSubmit={this.handleClick}>
-                        <div className="login">
-                            <input type="text" id="email" name="email" placeholder="Email" value={this.state.email} onChange={this.handleChange} required/>
-                            <input type="password" id="password" name="password" placeholder="Your password" value={this.state.password} onChange={this.handleChange} required/>
-                            <button type="submit">Submit</button>
-                        </div>
+                <div>
+                    <h1>Login</h1>
+                    <form className="container" onSubmit={this.handleClick}>
+                        <input className={this.state.inputClass} type="text" id="email" name="email" placeholder="Email" value={this.state.email} onChange={this.handleChange} required/>
+                        <input className={this.state.inputClass} type="password" id="password" name="password" placeholder="Your password" value={this.state.password} onChange={this.handleChange} required/>
+                        <button type="submit">Submit</button>
                     </form>
+                    {this.state.error && <h3 className="error">{this.state.error}</h3>}
                 </div>
                 
             );

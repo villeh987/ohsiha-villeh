@@ -5,7 +5,7 @@ const sql = require('../sql.js');
 const bcrypt = require('bcrypt');
 
 function validateUser(user) {
-    const validEmail = typeof user.email == 'string' && user.email.trim() != '';
+    const validEmail = typeof user.email == 'string' && user.email.trim() != '' && user.email.includes('@');
     const validUserName = user.name.length < 30;
     const validPassword =   typeof user.password == 'string' &&
                             user.password.trim() != '' &&
@@ -26,9 +26,8 @@ module.exports = {
     async createUser(request, response) {
         if (!validateUser(request.body)) {
             // error
-            console.log("vituiks män");
-            response.status(500);
-            response.end("Not valid user!");
+            response.status(404);
+            response.json({message: 'Inputs not valid'});
             return false;
         } 
 
@@ -36,15 +35,15 @@ module.exports = {
 
             if (result.rowCount > 0) {
                 //console.log("Already exists!");
-                response.status(500);
-                response.end('Already exists with that email!');
+                response.status(404);
+                response.json({message: 'Email already in use'});
                 return false;
             } else {
                 sql.createUser(request.body, function(result) {
                     if (result) {
-                        console.log("Succesfully created new user!");
+
                     }
-                    response.end('User creation succesfull!');
+                    response.json({message: 'User registered uccesfully!'});
                 });
             }
         });
@@ -61,7 +60,7 @@ module.exports = {
 
         sql.getUserByEmail(request.body.email, function(result) {
             if (result.rowCount === 0) {
-                response.status(500);
+                response.status(404);
                 response.json( {message: 'Invalid email or password'});
 
             } else {
@@ -73,7 +72,7 @@ module.exports = {
                         response.json({message: 'User found!'});  
                         
                     } else {
-                        response.status(500);
+                        response.status(404);
                         response.json({message: 'Invalid email or password'}); 
                     }
                 });
