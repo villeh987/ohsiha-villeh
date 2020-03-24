@@ -3,8 +3,6 @@ import ReactLoading from "react-loading";
 import './data.css';
 const axios = require('axios').default;
 
-require('dotenv').config();
-
 class Data extends Component {
 
     constructor(props) {
@@ -24,7 +22,7 @@ class Data extends Component {
                 items: json.data
             })
         })
-        .catch(error => console.log("client:", error));
+        .catch(error => console.log(error));
     }
 
 

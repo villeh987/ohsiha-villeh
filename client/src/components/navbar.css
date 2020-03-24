@@ -1,5 +1,22 @@
 @import url('https://fonts.googleapis.com/css?family=Baloo+2:500&display=swap');
 
+.about-button {
+    padding-left: 20px;
+    font-family: "Baloo 2", cursive;
+    border-style: none;
+    background: none;
+    font-size: 17px;
+    color:white;
+    text-decoration: none;
+    outline: none;
+    transition: all 0.3s ease 0s;
+}
+
+.about-button:hover {
+    color: #107aa1;
+    cursor: pointer;
+}
+
 nav {
 
     justify-content: flex-end;
@@ -20,7 +37,7 @@ ul.nav-links {
     padding: 0px 20px;
 }
 
-a {
+.nav-link {
     font-family: "Baloo 2", cursive;
     font-size: 17px;
     color:white;
@@ -28,7 +45,7 @@ a {
     transition: all 0.3s ease 0s;
 }
 
-a:hover {
+.nav-link:hover {
     color: #107aa1;
 }
 
