@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
+import ReactLoading from "react-loading";
 import './data.css';
+const axios = require('axios').default;
 
 require('dotenv').config();
 
@@ -14,15 +16,15 @@ class Data extends Component {
     }
 
     componentDidMount() {
-        fetch(`http://www.omdbapi.com/?s=batman&apikey=`)
-        .then(res => res.json())
+        axios.get('http://localhost:5000/api/search?criteria=batman', {withCredentials: true})
         .then(json => {
             console.log(json);
             this.setState({
                 isLoaded: true,
-                items: json
+                items: json.data
             })
         })
+        .catch(error => console.log("client:", error));
     }
 
 
@@ -32,7 +34,7 @@ class Data extends Component {
         //console.log(items);
 
         if (!isLoaded) {
-            return <div>Loading...</div>;
+            return <ReactLoading type={"bars"} color={"white"} />;
         } else {
             return (
                 <ul>
