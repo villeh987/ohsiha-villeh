@@ -1,4 +1,4 @@
-button[type=button] {
+.logoutButton {
   width: 500px;
   background-color: #42c5f5;
   color: white;
@@ -10,6 +10,6 @@ button[type=button] {
 }
 
 
-button[type=button]:hover {
+.logoutButton:hover {
   background-color: #107aa1;
 }

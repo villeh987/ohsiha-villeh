@@ -11,7 +11,7 @@ class Logout extends Component {
         return (
             <div>
                 <h1>Logout</h1>
-                <button type="button" onClick={ ()=> {
+                <button className="logoutButton" type="button" onClick={ ()=> {
 
                     axios.get("http://localhost:5000/user/logout", {withCredentials: true})
                     .then(response => {

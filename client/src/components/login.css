@@ -61,12 +61,12 @@ input[type=text].normal, input[type=password].normal {
 
 }
 
-input[type=text]:focus, input[type=password]:focus {
+input[type=text].normal:focus, input[type=password]:focus {
     width: 357px;
 }
 
 
-button[type=submit] {
+.loginButton, .registerButton {
   width: 343px;
   background-color: #42c5f5;
   color: white;
@@ -78,7 +78,7 @@ button[type=submit] {
   cursor: pointer;
 }
 
-button[type=submit]:hover {
+.loginButton:hover, .registerButton:hover {
   background-color: #107aa1;
 } 
 

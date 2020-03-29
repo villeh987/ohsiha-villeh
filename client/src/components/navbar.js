@@ -64,6 +64,7 @@ class Navbar extends Component {
         return (
             <div>
                 <nav>
+                    {/*<h2 className="app-name">OMDb App</h2>*/}
                     <img className="logo" src={Logo} alt="logo"/>
                     {nav}
                 </nav>
