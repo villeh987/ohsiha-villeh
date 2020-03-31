@@ -1,0 +1,22 @@
+.chart-text {
+    font-family: "Baloo 2", cursive;
+    font-size: 13px;
+    text-transform: capitalize;
+    display: block;
+}
+
+.chart-base {
+
+    filter: drop-shadow(16px 16px 20px #a6adab );
+
+    /*#9cf7dd
+    #f27289*/
+}
+
+.chart-base-dimmed {
+
+    filter: drop-shadow(16px 16px 20px #a6adab ) invert(75%);
+
+    /*#9cf7dd
+    #f27289*/
+}

@@ -81,6 +81,9 @@
 }  
 
 .content {
+    max-width: 300px;
+    display: inline-block;
+    text-align: justify;
     padding: 1rem;
 }
 .actions {
@@ -88,6 +91,16 @@
     background: #eee;
     padding: 0.5rem 1rem;
 
+  }
+
+  .copyright {
+    
+    line-height: 0px;
+  }
+
+  .license {
+    line-height: 0px;
+    margin-top: 50px;
   }
 
 

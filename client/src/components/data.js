@@ -55,24 +55,46 @@ class Data extends Component {
 
         this.cancel = axios.CancelToken.source();
 
-        axios.get(`http://localhost:5000/api/search?criteria=${this.state.criteria}`, {cancelToken: this.cancel.token, withCredentials: true})
+        axios.get(`http://localhost:5000/api/search?criteria=${this.state.criteria}&page=1`, {cancelToken: this.cancel.token, withCredentials: true})
         .then(json => {
 
-            let message = '';
+            const totalResults = json.data.totalResults;
+            const totalPages = ((totalResults % 10) > 0) ? (totalResults / 10) + 1 : totalResults / 10;
+            const apiPromises = [];
+            let processedResponses = [];
 
-            if (json.data.Error) {
-                message = json.data.Error;
-            } 
-            //const message = !json.data.totalResults ? "Too many results" : '';
+            var page;
+            for (page = 1; page <= totalPages; page++) {
+                apiPromises.push(axios.get(`http://localhost:5000/api/search?criteria=${this.state.criteria}&page=${page}`, {cancelToken: this.cancel.token, withCredentials: true}))
+            }
 
-            console.log(json);
-            this.setState({
-                isLoaded: true,
-                searched: true,
-                items: json.data,
-                analysis: json.data.Search,
-                message: message
+            Promise.all(apiPromises)
+            .then(responses => {           
+                responses.forEach(response => {
+                    processedResponses = processedResponses.concat(response.data.Search);
+                })
+                console.log("Mapped Responses:", processedResponses);
+
+                let message = '';
+
+                if (json.data.Error) {
+                    message = json.data.Error;
+                } 
+                //const message = !json.data.totalResults ? "Too many results" : '';
+
+                //console.log(json);
+                const analyse = json.data.Search === undefined ? [] : processedResponses;
+
+                this.setState({
+                    isLoaded: true,
+                    searched: true,
+                    items: json.data,
+                    analysis: analyse,
+                    message: message
+                })
             })
+
+
         })
         .catch(error => {
             if (axios.isCancel(error) || error) {
@@ -96,19 +118,29 @@ class Data extends Component {
 
     render() {
 
-        let {isLoaded, items, message} = this.state;
+        let {isLoaded, items, message, analysis} = this.state;
         //console.log(items);
+
+        const charts = <div>
+                        <Chart data={analysis} attribute="Type" width="300" height="300" innerRadius="35" outerRadius="100"/>
+                        <Chart data={analysis} attribute="Year" width="300" height="300" innerRadius="35" outerRadius="100"/> 
+                      </div>
 
         return (
             <div className="search-container">
 
                 <ReactLoading className={`search-loader ${!isLoaded ? 'show' : 'hide' }`} type={"bars"} color={"black"} />
+                
 
-                { message && <p className="message">{message}</p> }
+                
+
+                <p className="message">{message}</p>
+
                 <input type="text" className="search-bar" id="search-bar" name="criteria" placeholder="Search" value={this.state.email} onChange={this.handleChange} autoComplete="off"></input>
                 <FontAwesomeIcon className="search-icon" icon={faSearch} />
-                <Chart data={this.state.analysis} attribute="Type"/> 
-                {console.log("täältä lähtee:", this.state.analysis)}
+                {(analysis !== undefined &&analysis.length > 0) && charts}
+
+                {/*console.log("täältä lähtee:", this.state.analysis) */}
                 
 
 
@@ -117,10 +149,10 @@ class Data extends Component {
                     <div>
                         <h2>Results: {items.totalResults}</h2>
                         <ul>
-                            {items.Search.map(item => (
-                                <li key={item.imdbID}>
+                            {items.Search.map( (item, index) => (
+                                <li key={index}>
                                     <div>
-                                        <span className="caption">{item.Title}</span>
+                                        <span className="caption">{item.Title} ({item.Year})</span>
                                         <img src={item.Poster} alt="NO_IMAGE"/>
                                     </div>
                                 </li>

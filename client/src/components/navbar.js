@@ -35,7 +35,7 @@ class Navbar extends Component {
                     <li>Home</li>
                     </Link>
                     <Link className="nav-link" to="/data">
-                    <li>Data</li>
+                    <li>Search</li>
                     </Link>
                     <Link className="nav-link" to="/logout">
                     <li>Logout</li>

@@ -12,7 +12,9 @@ module.exports = {
      */
     search(request, response) {
         const criteria = request.query.criteria;
-        axios.get(`http://www.omdbapi.com/?s=${criteria}&apikey=${APIKEY}`)
+        const page = request.query.page;
+
+        axios.get(`http://www.omdbapi.com/?s=${criteria}&page=${page}&apikey=${APIKEY}`)
         .then(result => {
             response.json(result.data);
         })

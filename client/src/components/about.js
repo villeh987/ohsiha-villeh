@@ -19,9 +19,11 @@ class About extends Component {
                 <button className="toggle-button" onClick={this.onClose}><img src={Close} alt="NO_IMAGE"/></button>
                 <h2 className= "about-title">About</h2>
                 <div className="content">
-                        <p>This app has been created as part of Ohjelmallinen sisällönhallinta course. </p>
+                        <p>This app has been created as part of Ohjelmallinen sisällönhallinta course at Tampereen yliopisto. </p>
                         <p>This project can be viewed at:</p>
                         <a href="https://github.com/villeh987/ohsiha-villeh" target="_blank" rel="noopener noreferrer">GitHub page</a>
+                        <p className="license">MIT License</p>
+                        <p className="copyright">Copyright (c) 2020 villeh987</p>
                 </div>
                 <div className="actions">
                 </div>

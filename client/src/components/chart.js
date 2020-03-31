@@ -12,22 +12,15 @@ class Chart extends Component {
 
 
 
-        this.height = 200;
-        this.width = 200;
+        this.height = this.props.height;
+        this.width = this.props.width;
 
         
-        this.arc = d3.arc().innerRadius(50).outerRadius(100);
+        this.arc = d3.arc().innerRadius(this.props.innerRadius).outerRadius(this.props.outerRadius);
 
         this.interpolate = d3.interpolateRgb('#eaaf79', '#bc3358');
 
-
-
-        /*this.categories = d3.nest()
-                                .key(d => d.Type)
-                                .rollup(v => v.length)
-                                .entries(this.props.data) */
-
-       // console.log("categories:", this.categories);
+        this.colors = d3.scaleOrdinal(d3.schemeCategory10);
 
         
     }
@@ -37,39 +30,65 @@ class Chart extends Component {
 
     render() {
 
-        console.log("PROPS", this.props.data , "PROPS");
+        //console.log("PROPS", this.props.data , "PROPS");
+        console.log("proppikset:", this.props.data);
 
-        if (this.props.data === undefined) {
-            this.categories = [];
+
+        if (this.props.data === undefined || this.props.data.length === 0) {
+            console.log("UNDEFINED");
+            //this.categories = [1];
+            this.pie = d3.pie()([1]);
+
+            return (
+                <svg className="chart-base-dimmed" height={this.height} width={this.width}>
+                    <g transform={`translate(${this.width / 2}, ${this.height / 2})`}>
+
+                        {this.pie.map((d, i) => (
+
+                            
+                            /*<Slice key={i} data={d} index={i} arc={this.arc} color={this.interpolate(i / (this.pie.length - 1))}/> */
+                            <Slice key={i} data={d} index={i} arc={this.arc} color={this.colors}/>
+                        ))
+
+                        }
+                    </g>
+                </svg>
+            );    
+
+
         } else {
             this.categories = d3.nest()
                         .key(d => d[this.props.attribute])
                         .rollup(v => v.length)
-                        .entries(this.props.data)  
+                        .entries(this.props.data)
+
+            this.pie = d3.pie().value(d => d.value)(this.categories);
+
+            return (
+                <svg className="chart-base" height={this.height} width={this.width}>
+                    <g transform={`translate(${this.width / 2}, ${this.height / 2})`}>
+
+                        {this.pie.map((d, i) => (
+                            
+                            
+                            <Slice key={i} data={d} index={i} arc={this.arc} color={this.colors}/>
+                        ))
+
+                        }
+                    </g>
+                </svg>
+            );    
+
         }
 
 
 
-        console.log("categories:", this.categories);
+        //console.log("categories:", this.categories);
 
-        this.pie = d3.pie().value(d => d.value)(this.categories);
+        
 
 
-            return (
-            <svg height={this.height} width={this.width}>
-                <g transform={`translate(${this.width / 2}, ${this.height / 2})`}>
 
-                    {this.pie.map((d, i) => (
-                        
-                        
-                        <Slice key={i} data={d} index={i} arc={this.arc} color={this.interpolate(i / (this.pie.length - 1))}/>
-                    ))
-
-                    }
-                </g>
-            </svg>
-            
-        );    
     }
 }
 
@@ -77,10 +96,31 @@ class Chart extends Component {
 const Slice = props => {
     let { data, index, arc, color} = props;
 
+    /*var c = arc.centroid(data),
+        x = c[0],
+        y = c[1],
+        
+        h = Math.sqrt(x*x + y*y); */
+
+
+
+    /*return "translate(" + (x/h * labelr) +  ',' +
+       (y/h * labelr) +  ")"; */
+    var _d = arc.centroid(data);
+    _d[0] *= 1.8;
+    _d[1] *= 1.8;
+
+    //console.log(_d);
+
+
+    //console.log(data.outerRadius);
+
     return (
     <g key={index} className="arc">
-        <path key={index} d={arc(data)} fill={color} />
-        <text transform={`translate(${arc.centroid(data)})`} textAnchor="middle" alignmentBaseline="middle" fill="white">{data.data.key}</text>
+        <path key={index} d={arc(data)} fill={color(index)} />
+        {/*<text className="chart-text" transform={`translate(${arc.centroid(data)})`} textAnchor="middle" alignmentBaseline="middle" fill="white">{data.data.key} : {data.data.value}</text> */}
+        <text className="chart-text" transform={`translate(${_d})`} textAnchor="middle" alignmentBaseline="middle" fill="black">{data.data.key}</text>
+        <text className="chart-text" transform={`translate(${arc.centroid(data)})`} textAnchor="middle" alignmentBaseline="middle" fill="black">{data.data.value}</text>
     </g>
     );
 
