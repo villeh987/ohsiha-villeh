@@ -37,7 +37,7 @@ class Register extends Component {
             "password": this.state.password
         }
 
-        axios.post('http://localhost:5000/user/register', payload, {withCredentials: true})
+        axios.post('user/register', payload, {withCredentials: true})
         .then(response => {
             if (response.status === 200) {
                 this.setState({message: 'Register succesful! You can now log in.'});

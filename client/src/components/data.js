@@ -58,7 +58,7 @@ class Data extends Component {
 
         this.cancel = axios.CancelToken.source();
 
-        axios.get(`http://localhost:5000/api/search?criteria=${this.state.criteria}&page=1`, {cancelToken: this.cancel.token, withCredentials: true})
+        axios.get(`api/search?criteria=${this.state.criteria}&page=1`, {cancelToken: this.cancel.token, withCredentials: true})
         .then(json => {
 
             const totalResults = json.data.totalResults;
@@ -74,7 +74,7 @@ class Data extends Component {
 
             // Get all pages of search results
             for (page = 1; page <= totalPages; page++) {
-                apiPromises.push(axios.get(`http://localhost:5000/api/search?criteria=${this.state.criteria}&page=${page}`, {cancelToken: this.cancel.token, withCredentials: true}))
+                apiPromises.push(axios.get(`api/search?criteria=${this.state.criteria}&page=${page}`, {cancelToken: this.cancel.token, withCredentials: true}))
             }
 
             // When all requests are done, combine all pages into one array.
@@ -88,7 +88,7 @@ class Data extends Component {
                     
                     // Search all results by ID to get genres
                     processedResponses.forEach(result => {
-                        idPromises.push(axios.get(`http://localhost:5000/api/searchbyid?id=${result.imdbID}`, {cancelToken: this.cancel.token, withCredentials: true}));
+                        idPromises.push(axios.get(`api/searchbyid?id=${result.imdbID}`, {cancelToken: this.cancel.token, withCredentials: true}));
                     })
 
                     Promise.all(idPromises)

@@ -38,7 +38,7 @@ class App extends Component {
 
 
     checkLoginStatus() {
-        axios.get("http://localhost:5000/user/auth", {withCredentials: true})
+        axios.get("user/auth", {withCredentials: true})
         .then(response=> {
             if (response.data.loggedIn && this.state.loggedInStatus === false) {
                 this.handleLogin(response.data.user, true);

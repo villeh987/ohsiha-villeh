@@ -36,7 +36,7 @@ class Login extends Component {
             "password": this.state.password
         }
 
-        axios.post('http://localhost:5000/user/login', payload, {withCredentials: true})
+        axios.post('user/login', payload, {withCredentials: true})
         .then(response => {
             if (response.status === 200) {
 

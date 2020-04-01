@@ -12,7 +12,7 @@ class Logout extends Component {
                 <h1>Logout</h1>
                 <button className="logoutButton" type="button" onClick={ ()=> {
 
-                    axios.get("http://localhost:5000/user/logout", {withCredentials: true})
+                    axios.get("user/logout", {withCredentials: true})
                     .then(response => {
                         if (response.data.status) {
                             sessionStorage.clear();
