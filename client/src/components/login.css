@@ -41,8 +41,7 @@ button[type=submit]:hover {
 
 
 .container{
-    width: 100vw;
-    position: relative;
+    width: 100vw; 
     display: flex;
     flex-flow: column wrap; 
     text-align: center;

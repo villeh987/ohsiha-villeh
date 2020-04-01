@@ -6,6 +6,7 @@ import Register from './components/register';
 import Homepage from './components/homepage';
 import Navbar from './components/navbar';
 import Data from './components/data';
+import About from './components/about';
 import {ProtectedRoute} from './components/protected.route';
 import {
   BrowserRouter as Router,
@@ -23,13 +24,18 @@ class App extends Component {
 
         this.state = {
             loggedInStatus: false,
-            user: {}
+            user: {},
+            show: false
         };
 
         this.checkLoginStatus = this.checkLoginStatus.bind(this);
         this.handleLogin = this.handleLogin.bind(this); 
         //this.checkLoginStatus(); 
     }
+
+    showModal = e => {
+        this.setState({ show: !this.state.show });
+    };
 
 
     checkLoginStatus() {
@@ -80,8 +86,8 @@ class App extends Component {
     return (
     <Router>
       <div className="App">
-
-        <Navbar auth={this.state.loggedInStatus}></Navbar>
+        <About show={this.state.show} onClose={this.showModal}/>
+        <Navbar auth={this.state.loggedInStatus} showModal={this.showModal}></Navbar>
         <Switch>
             {RedirectRoute}
             <ProtectedRoute path="/home" exact component={Homepage}/>

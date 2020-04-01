@@ -12,7 +12,7 @@ class Navbar extends Component {
         super();
         this.state = {
             auth: '',
-            show: false
+            //show: false
         };
     }
 
@@ -20,9 +20,9 @@ class Navbar extends Component {
         this.setState({...this.state, auth});
     }
 
-    showModal = e => {
+    /*showModal = e => {
         this.setState({ show: !this.state.show });
-    };
+    };*/
 
 
     render() {
@@ -43,7 +43,7 @@ class Navbar extends Component {
                     {/*<Link to="/about">
                     <li>About</li>
                     </Link> */}
-                    <button className="about-button" onClick={e => {this.showModal();}} >About</button>
+                    <button className="about-button" onClick={e => {this.props.showModal();}} >About</button>
                  </ul>            
         } else {
             nav = <ul className="nav-links">
@@ -57,7 +57,7 @@ class Navbar extends Component {
                     <li>About</li>
                     </Link> */}
                     
-                    <button className="about-button" onClick={e => {this.showModal();}} >About</button>
+                    <button className="about-button" onClick={e => {this.props.showModal();}} >About</button>
                  </ul> 
         }
 
@@ -68,7 +68,7 @@ class Navbar extends Component {
                     <img className="logo" src={Logo} alt="logo"/>
                     {nav}
                 </nav>
-                <About show={this.state.show} onClose={this.showModal}/>
+                {/*<About show={this.state.show} onClose={this.showModal}/> */}
             </div>
         );  
     }

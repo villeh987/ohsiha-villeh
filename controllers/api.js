@@ -19,7 +19,9 @@ module.exports = {
             response.json(result.data);
         })
         .catch(error => {
-            console.log(error);
+            if (error.response.status === 401) {
+                response.status(401).send({message: 'API request limit reached!'});
+            }
         });
     },
 
