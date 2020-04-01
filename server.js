@@ -16,8 +16,10 @@ const adminConfig = config.get('admin');
 const { pool } = require('./db');
 require('./setup')(adminConfig);
 
+app.use(express.static(path.join(__dirname, './client/build')));
 
-app.use(cors({origin: 'http://localhost:3000', credentials: true}));
+
+app.use(cors({origin: 'https://ohsiha-omdb-app.herokuapp.com/', credentials: true}));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -28,6 +30,11 @@ app.use(bodyParser.urlencoded({
 app.use(helmet());
 
 app.use(session(sessionConfig));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './client/build/index.html'));
+});
+
 
 
 require('./router.js')(app);
