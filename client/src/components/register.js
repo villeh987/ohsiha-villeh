@@ -14,6 +14,7 @@ class Register extends Component {
             email: '',
             password: '',
             error: '',
+            message: '',
             inputClass: 'normal'
         }
         this.handleClick = this.handleClick.bind(this);
@@ -39,7 +40,7 @@ class Register extends Component {
         axios.post('http://localhost:5000/user/register', payload, {withCredentials: true})
         .then(response => {
             if (response.status === 200) {
-                this.props.history.push('/home');
+                this.setState({message: 'Register succesful! You can now log in.'});
             }
         })
         .catch(error => {
@@ -59,6 +60,7 @@ class Register extends Component {
                     <button className="registerButton" type="submit">Submit</button>
                 </form>
                 {this.state.error && <h3 className="error">{this.state.error}</h3>}
+                {this.state.message && <h3 className="success-message">{this.state.message}</h3>}
             </div>       
         );  
     }
