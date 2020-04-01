@@ -10,7 +10,7 @@ class About extends Component {
   };
 
     render() {
-        if(!this.props.show){
+        if (!this.props.show){
             return null;
         }
 

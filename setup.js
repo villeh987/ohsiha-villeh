@@ -20,18 +20,4 @@ module.exports =  async userConfig=> {
         }
 
     });
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-};
+}

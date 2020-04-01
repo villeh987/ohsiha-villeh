@@ -62,9 +62,6 @@ class Data extends Component {
         .then(json => {
 
             const totalResults = json.data.totalResults;
-            console.log("totalResults:", totalResults);
-
-            // Set result limit here!
 
             const totalPages = ((totalResults % 10) > 0) ? (totalResults / 10) + 1 : totalResults / 10;
             const apiPromises = [];
@@ -86,7 +83,6 @@ class Data extends Component {
                 responses.forEach(response => {
                     processedResponses = processedResponses.concat(response.data.Search);
                 })
-                //console.log("Mapped Responses:", processedResponses);
 
                 if (totalResults <= SEARCH_LIMIT) {
                     
@@ -104,7 +100,6 @@ class Data extends Component {
                             proceccedIds.push(response.data);
                         })
 
-
                         if (json.data.Error) {
                             message = json.data.Error;
                         } 
@@ -120,7 +115,8 @@ class Data extends Component {
                             genres: genres,
                             message: message
                         })
-                    })                   
+                    }) 
+
                 } else {
 
                     if (json.data.Error) {
@@ -139,9 +135,7 @@ class Data extends Component {
                         message: message
                     })
                 }
-
             })
-
 
         })
         .catch(error => {
@@ -152,23 +146,9 @@ class Data extends Component {
         });
     }
 
-    /*componentDidMount() {
-        /*axios.get('http://localhost:5000/api/search?criteria=batman', {withCredentials: true})
-        .then(json => {
-            console.log(json);
-            this.setState({
-                isLoaded: true,
-                items: json.data
-            })
-        })
-        .catch(error => console.log(error)); 
-    } */
-
-
     render() {
 
         let {isLoaded, items, message, analysis, genres} = this.state;
-        //console.log(items);
 
         const charts = <div>
                         <Chart data={analysis} attribute="Type" width="300" height="300" innerRadius="35" outerRadius="100"/>

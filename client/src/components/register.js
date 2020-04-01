@@ -29,7 +29,6 @@ class Register extends Component {
 
 
     handleClick(event) {
-        //console.log(this.state.name, this.state.email, this.state.password);
         event.preventDefault();
         const payload = {
             "name": this.state.name,
@@ -51,17 +50,16 @@ class Register extends Component {
 
     render() {
         return (
-                <div>
-                    <h1>Register</h1>
-                    <form className="container" onSubmit={this.handleClick}>
-                        <input className={this.state.inputClass} type="text" id="username" name="name" placeholder="Your username" value={this.state.name} autoComplete="off" onChange={this.handleChange} required/>
-                        <input className={this.state.inputClass} type="text" id="email" name="email" placeholder="Email" value={this.state.email} autoComplete="off" onChange={this.handleChange} required/>
-                        <input className={this.state.inputClass} type="password" id="password" name="password" placeholder="Your password" value={this.state.password} onChange={this.handleChange} required/>
-                        <button className="registerButton" type="submit">Submit</button>
-                    </form>
-                    {this.state.error && <h3 className="error">{this.state.error}</h3>}
-                </div>
-            
+            <div>
+                <h1>Register</h1>
+                <form className="container" onSubmit={this.handleClick}>
+                    <input className={this.state.inputClass} type="text" id="username" name="name" placeholder="Your username" value={this.state.name} autoComplete="off" onChange={this.handleChange} required/>
+                    <input className={this.state.inputClass} type="text" id="email" name="email" placeholder="Email" value={this.state.email} autoComplete="off" onChange={this.handleChange} required/>
+                    <input className={this.state.inputClass} type="password" id="password" name="password" placeholder="Your password" value={this.state.password} onChange={this.handleChange} required/>
+                    <button className="registerButton" type="submit">Submit</button>
+                </form>
+                {this.state.error && <h3 className="error">{this.state.error}</h3>}
+            </div>       
         );  
     }
 }

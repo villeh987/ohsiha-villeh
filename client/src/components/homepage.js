@@ -4,7 +4,6 @@ import './homepage.css';
 
 class Homepage extends Component {
 
-
     render() {
         return (
             <div>

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './logout.css';
-//import auth from '../auth';
 
 const axios = require('axios').default;
 
@@ -28,8 +27,7 @@ class Logout extends Component {
                 >
                 Logout
                 </button>
-            </div>
-            
+            </div>  
         );  
     }
 }

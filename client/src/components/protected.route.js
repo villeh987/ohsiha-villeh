@@ -1,8 +1,6 @@
 import React from 'react';
 import {Route, Redirect} from 'react-router-dom';
 import './data.css';
-//import auth from '../auth';
-
 
 export const ProtectedRoute = ({component: Component, auth, ...rest}) => {
     const isAuth = sessionStorage.getItem('auth');
@@ -26,5 +24,3 @@ export const ProtectedRoute = ({component: Component, auth, ...rest}) => {
         />
     )
 }
-
-

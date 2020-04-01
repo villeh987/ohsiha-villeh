@@ -29,7 +29,7 @@ class Login extends Component {
 
 
     handleClick(event) {
-        //console.log(this.state.name, this.state.email, this.state.password);
+
         event.preventDefault();
         const payload = {
             "email": this.state.email,
@@ -39,7 +39,6 @@ class Login extends Component {
         axios.post('http://localhost:5000/user/login', payload, {withCredentials: true})
         .then(response => {
             if (response.status === 200) {
-                console.log(response.data.message);
 
                 sessionStorage.setItem('auth', 'true');
                 this.props.checkLoginStatus();
@@ -53,10 +52,12 @@ class Login extends Component {
     }
 
     render() {
+        
         if (sessionStorage.getItem('auth')) {
             return (
                 <Redirect to={{pathname: "/home"}} />
             ) 
+
         } else {
             return (
                 <div>
@@ -67,8 +68,7 @@ class Login extends Component {
                         <button className="loginButton" type="submit">Submit</button>
                     </form>
                     {this.state.error && <h3 className="error">{this.state.error}</h3>}
-                </div>
-                
+                </div>  
             );
         }  
     }

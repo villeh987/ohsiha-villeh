@@ -11,8 +11,6 @@ function validateUser(user) {
                             user.password.trim() != '' &&
                             user.password.trim().length >= 0;
 
-    //console.log("name:", validUserName, "email:", validEmail, "password", validPassword);
-
     return validEmail && validUserName && validPassword;
 }
 
@@ -50,7 +48,6 @@ module.exports = {
     },
 
 
-
     /**
      * Returns a form for a user to login
      * @param {Object} request is express request object
@@ -81,11 +78,13 @@ module.exports = {
 
     },
 
-
-
+    /**
+     * Checks that the request is authenticated
+     * @param {Object} request is express request object
+     * @param {Object} response is express response object
+     */
     loggedIn(request, response) {
         request.session.user ? response.json({loggedIn: true, user: request.session.user}) : response.json({loggedIn: false, user: {}});
-        console.log(request.sessionID);
     },
 
 
@@ -104,20 +103,5 @@ module.exports = {
         } else {
             response.json({status: 'Already logged out'});
         }
-        /*
-        request.session.destroy(()=> {
-            response.clearCookie('user_id');
-            response.json({status: 'Logged out'});
-        });*/
-
-    },
-
-    /**
-     * Returns a form for user to register
-     * @param {Object} request is express request object
-     * @param {Object} response is express response object
-     */
-    register(request, response) {
-
     }
 };
