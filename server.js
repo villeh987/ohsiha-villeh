@@ -19,7 +19,7 @@ require('./setup')(adminConfig);
 app.use(express.static(path.join(__dirname, './client/build')));
 
 
-app.use(cors({origin: 'https://ohsiha-omdb-app.herokuapp.com/', credentials: true}));
+app.use(cors({origin: 'http://localhost:5000', credentials: true}));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
