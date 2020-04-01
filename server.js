@@ -31,13 +31,15 @@ app.use(helmet());
 
 app.use(session(sessionConfig));
 
+require('./router.js')(app);
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, './client/build/index.html'));
 });
 
 
 
-require('./router.js')(app);
+
 
 
 
