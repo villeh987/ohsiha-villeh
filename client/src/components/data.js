@@ -6,6 +6,8 @@ import Chart from './chart';
 import './data.css';
 const axios = require('axios').default;
 
+//const SEARCH_LIMIT = 100;
+
 class Data extends Component {
 
     constructor(props) {
@@ -16,6 +18,7 @@ class Data extends Component {
             searched: false,
             criteria: '',
             analysis: [],
+            genres: [],
             message: ''
         }
 
@@ -59,39 +62,65 @@ class Data extends Component {
         .then(json => {
 
             const totalResults = json.data.totalResults;
+
+            // Set result limit here!
+
             const totalPages = ((totalResults % 10) > 0) ? (totalResults / 10) + 1 : totalResults / 10;
             const apiPromises = [];
             let processedResponses = [];
+            let idPromises = [];
+            let proceccedIds = [];
 
             var page;
+
+            // Get all pages of search results
             for (page = 1; page <= totalPages; page++) {
                 apiPromises.push(axios.get(`http://localhost:5000/api/search?criteria=${this.state.criteria}&page=${page}`, {cancelToken: this.cancel.token, withCredentials: true}))
             }
 
+            // When all requests are done, combine all pages into one array.
             Promise.all(apiPromises)
             .then(responses => {           
                 responses.forEach(response => {
                     processedResponses = processedResponses.concat(response.data.Search);
                 })
-                console.log("Mapped Responses:", processedResponses);
+                //console.log("Mapped Responses:", processedResponses);
 
-                let message = '';
 
-                if (json.data.Error) {
-                    message = json.data.Error;
-                } 
-                //const message = !json.data.totalResults ? "Too many results" : '';
-
-                //console.log(json);
-                const analyse = json.data.Search === undefined ? [] : processedResponses;
-
-                this.setState({
-                    isLoaded: true,
-                    searched: true,
-                    items: json.data,
-                    analysis: analyse,
-                    message: message
+                // Search all results by ID to get genres
+                processedResponses.forEach(result => {
+                    idPromises.push(axios.get(`http://localhost:5000/api/searchbyid?id=${result.imdbID}`, {cancelToken: this.cancel.token, withCredentials: true}));
                 })
+
+                Promise.all(idPromises)
+                .then(responses => {
+                    responses.forEach(response => {
+                        if (response.data.Genre.includes(',')) {
+                            response.data.Genre = response.data.Genre.split(',')[0];
+                        }
+                        proceccedIds.push(response.data);
+                    })
+
+
+                    let message = '';
+
+                    if (json.data.Error) {
+                        message = json.data.Error;
+                    } 
+
+                    const analyse = json.data.Search === undefined ? [] : processedResponses;
+                    const genres = json.data.Search === undefined ? [] : proceccedIds;
+
+                    this.setState({
+                        isLoaded: true,
+                        searched: true,
+                        items: json.data,
+                        analysis: analyse,
+                        genres: genres,
+                        message: message
+                    })
+                })
+
             })
 
 
@@ -118,12 +147,12 @@ class Data extends Component {
 
     render() {
 
-        let {isLoaded, items, message, analysis} = this.state;
+        let {isLoaded, items, message, analysis, genres} = this.state;
         //console.log(items);
 
         const charts = <div>
                         <Chart data={analysis} attribute="Type" width="300" height="300" innerRadius="35" outerRadius="100"/>
-                        <Chart data={analysis} attribute="Year" width="300" height="300" innerRadius="35" outerRadius="100"/> 
+                        <Chart data={genres} attribute="Genre" reduce="true" reduceamount="2" width="300" height="300" innerRadius="35" outerRadius="100"/> 
                       </div>
 
         return (
@@ -131,18 +160,14 @@ class Data extends Component {
 
                 <ReactLoading className={`search-loader ${!isLoaded ? 'show' : 'hide' }`} type={"bars"} color={"black"} />
                 
-
-                
-
                 <p className="message">{message}</p>
 
                 <input type="text" className="search-bar" id="search-bar" name="criteria" placeholder="Search" value={this.state.email} onChange={this.handleChange} autoComplete="off"></input>
                 <FontAwesomeIcon className="search-icon" icon={faSearch} />
-                {(analysis !== undefined &&analysis.length > 0) && charts}
+                {(analysis !== undefined && analysis.length > 0) && charts}
 
                 {/*console.log("täältä lähtee:", this.state.analysis) */}
                 
-
 
                 {(this.state.searched && items.Response === 'True') &&
 

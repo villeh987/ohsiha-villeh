@@ -21,5 +21,22 @@ module.exports = {
         .catch(error => {
             console.log(error);
         });
+    },
+
+    /**
+     * Make a search to OMDB API by ID
+     * @param {Object} request is express request object
+     * @param {Object} response is express response object
+     */
+    searchById(request, response) {
+        const id = request.query.id;
+
+        axios.get(`http://www.omdbapi.com/?i=${id}&apikey=${APIKEY}`)
+        .then(result => {
+            response.json(result.data);
+        })
+        .catch(error => {
+            console.log(error);
+        }); 
     }
 };

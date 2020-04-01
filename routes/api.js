@@ -8,4 +8,8 @@ router
     .route('/search')
     .get(ApiController.search);
 
+router
+    .route('/searchbyid')
+    .get(ApiController.searchById);
+
 module.exports = router;

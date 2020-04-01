@@ -25,9 +25,6 @@ class Chart extends Component {
         
     }
 
-
-    
-
     render() {
 
         //console.log("PROPS", this.props.data , "PROPS");
@@ -57,20 +54,39 @@ class Chart extends Component {
 
 
         } else {
-            this.categories = d3.nest()
+            let categories = d3.nest()
                         .key(d => d[this.props.attribute])
                         .rollup(v => v.length)
                         .entries(this.props.data)
 
-            this.pie = d3.pie().value(d => d.value)(this.categories);
+            console.log("categories:", categories);
+
+            let reduced = [];
+
+            if (this.props.reduce && this.props.reduceamount) {
+                let counter = 0;
+                categories.forEach(d => {
+                    if (d.value < this.props.reduceamount) {
+                        ++counter;
+                    } else {
+                        reduced.push(d);
+                    }
+                })
+
+                if (counter > 0) {
+                    reduced.push({key: "Other", value: counter});
+                    categories = reduced;
+                }
+            }
+
+
+            this.pie = d3.pie().value(d => d.value)(categories);
 
             return (
                 <svg className="chart-base" height={this.height} width={this.width}>
                     <g transform={`translate(${this.width / 2}, ${this.height / 2})`}>
 
-                        {this.pie.map((d, i) => (
-                            
-                            
+                        {this.pie.map((d, i) => (  
                             <Slice key={i} data={d} index={i} arc={this.arc} color={this.colors}/>
                         ))
 
@@ -78,17 +94,7 @@ class Chart extends Component {
                     </g>
                 </svg>
             );    
-
         }
-
-
-
-        //console.log("categories:", this.categories);
-
-        
-
-
-
     }
 }
 
