@@ -1,5 +1,3 @@
-
-//const User = require('../models/user');
 const { pool } = require('../db');
 const sql = require('../sql.js');
 const bcrypt = require('bcrypt');
@@ -32,7 +30,6 @@ module.exports = {
         sql.getUserByEmail(request.body.email, function(result) {
 
             if (result.rowCount > 0) {
-                //console.log("Already exists!");
                 response.status(404);
                 response.json({message: 'Email already in use'});
                 return false;

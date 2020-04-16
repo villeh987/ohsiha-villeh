@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './homepage.css';
 
-
 class Homepage extends Component {
 
     render() {

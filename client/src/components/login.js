@@ -26,8 +26,6 @@ class Login extends Component {
         });
     }
 
-
-
     handleClick(event) {
 
         event.preventDefault();

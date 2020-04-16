@@ -6,17 +6,9 @@
 }
 
 .chart-base {
-
     filter: drop-shadow(16px 16px 20px #a6adab );
-
-    /*#9cf7dd
-    #f27289*/
 }
 
 .chart-base-dimmed {
-
     filter: drop-shadow(16px 16px 20px #a6adab ) invert(75%);
-
-    /*#9cf7dd
-    #f27289*/
 }

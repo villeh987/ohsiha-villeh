@@ -140,7 +140,13 @@ class Data extends Component {
         })
         .catch(error => {
             if (axios.isCancel(error) || error) {
-                const message = error.response.status === 401 ? error.response.data.message : 'Search failed';
+                let message = '';
+                if (error.response === undefined) {
+                    message = 'Search failed';
+                } else {
+                    message = error.response.status === 401 ? error.response.data.message : 'Search failed';
+                }
+                
                 this.setState({searched: false, isLoaded: true, message: message});
             }
         });
@@ -151,8 +157,8 @@ class Data extends Component {
         let {isLoaded, items, message, analysis, genres} = this.state;
 
         const charts = <div>
-                        <Chart data={analysis} attribute="Type" width="300" height="300" innerRadius="35" outerRadius="100"/>
-                        <Chart data={genres} attribute="Genre" reduce="true" reduceamount="2" width="300" height="300" innerRadius="35" outerRadius="100"/> 
+                        <Chart data={analysis} attribute="Type" width="330" height="330" innerRadius="35" outerRadius="100"/>
+                        <Chart data={genres} attribute="Genre" reduce="true" reduceamount="2" width="330" height="330" innerRadius="35" outerRadius="100"/> 
                       </div>
 
         return (
@@ -166,10 +172,7 @@ class Data extends Component {
                 <FontAwesomeIcon className="search-icon" icon={faSearch} />
                 <button type="submit" className="searchbutton" disabled={!this.state.criteria} onClick={this.makeSearch}>Search</button>
             
-                {(analysis !== undefined && analysis.length > 0) && charts}
-
-                {/*console.log("täältä lähtee:", this.state.analysis) */}
-                
+                {(analysis !== undefined && analysis.length > 0) && charts}                
 
                 {(this.state.searched && items.Response === 'True') &&
 

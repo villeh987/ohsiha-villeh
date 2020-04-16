@@ -7,19 +7,14 @@ class Chart extends Component {
     constructor(props) {
         super(props);
 
-
-
         this.height = this.props.height;
         this.width = this.props.width;
         this.arc = d3.arc().innerRadius(this.props.innerRadius).outerRadius(this.props.outerRadius);
         this.interpolate = d3.interpolateRgb('#eaaf79', '#bc3358');
-        this.colors = d3.scaleOrdinal(d3.schemeCategory10);
-
-        
+        this.colors = d3.scaleOrdinal(d3.schemeCategory10);       
     }
 
     render() {
-
 
         if (this.props.data === undefined || this.props.data.length === 0) {
             this.pie = d3.pie()([1]);
@@ -35,7 +30,6 @@ class Chart extends Component {
                     </g>
                 </svg>
             );    
-
 
         } else {
             let categories = d3.nest()

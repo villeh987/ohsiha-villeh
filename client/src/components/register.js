@@ -27,8 +27,6 @@ class Register extends Component {
         });
     }
 
-
-
     handleClick(event) {
         event.preventDefault();
         const payload = {

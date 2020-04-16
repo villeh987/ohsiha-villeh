@@ -2,7 +2,6 @@ const sql = require('./sql');
 
 module.exports =  async userConfig=> {
 
-
     sql.findOneByRole('admin', function (result) {
 
         if (result.length != 0) {
@@ -18,6 +17,5 @@ module.exports =  async userConfig=> {
                 }
             });
         }
-
     });
 }

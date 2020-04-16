@@ -1,62 +1,21 @@
-
-
 .about {
-
-  font-family: "Baloo 2", cursive;
-  width: 50%;
-  background: white;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.26);
-  position: fixed;
-  top: 20vh;
-  left: 25%;
-    
-
-  /*transition: 1.1s ease-out;
-  box-shadow: 
-    -2rem 2rem 2rem rgba(black, 0.2);
-  filter: blur(0);
-  transform: scale(1);  
-  opacity: 1;
-  visibility: visible; */
-  
-
+    font-family: "Baloo 2", cursive;
+    width: 50%;
+    background: white;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.26);
+    position: fixed;
+    z-index: 99; 
+    top: 20vh;
+    left: 25%;
 }
 
-
-
-  
-/*
-  @supports (offset-rotate: 0deg) {
-    offset-rotate: 0deg;
-    offset-path: path("M 250,100 S -300,500 -700,-200");
-    &.off {
-      offset-distance: 100%;
-    }
-  }
-
-  @media (prefers-reduced-motion) {
-    offset-path: none;
-  }
-
-*/
 .about-title {
     border-bottom: 1px solid #ccc;
     padding: 1rem;
     margin: 0;
   } 
+
 .toggle-button {
-    /*width: 20px;
-    height: 20px;
-    margin-left: 90%;
-    margin-top: 1%;
-    border: 0;
-    
-    border-radius: 50%;
-    padding: 0.5rem 1rem;
-    
-    text-align: center;
-    text-decoration: none;
-    font-family: "Baloo 2", cursive; */
     outline: none;
     margin-left: 97%;
     margin-top: 5px; 
@@ -66,14 +25,12 @@
     border-radius: 50%;
     border: none; 
     background: none;
-
 }
+
 .toggle-button img {
     width : 15px;
     height: 15px;
     margin-left: -10px;
-    /*margin-left: 97%;
-    margin-top: 5px; */
 }
 
 .toggle-button img:hover {
@@ -86,19 +43,18 @@
     text-align: justify;
     padding: 1rem;
 }
+
 .actions {
     border-top: 1px solid #ccc;
     background: #eee;
     padding: 0.5rem 1rem;
+}
 
-  }
-
-  .copyright {
-    
+.copyright {
     line-height: 0px;
-  }
+}
 
-  .license {
+.license {
     line-height: 0px;
     margin-top: 50px;
-  }
+}
